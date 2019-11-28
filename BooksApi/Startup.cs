@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BooksApi.Models;
+using BooksApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,10 +29,13 @@ namespace BooksApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<BookstoreDatabaseSettings>(
-    Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
+                Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
 
             services.AddSingleton<IBookstoreDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+            
+            services.AddSingleton<BookService>();
+
             services.AddControllers();
         }
 
